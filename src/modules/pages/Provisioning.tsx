@@ -11,8 +11,10 @@ const newCol: object[] = [];
 const newData: object[] = [];
 
 useEffect(() => {
-  console.log('columns: ', columns);
-  console.log('data: ', data);
+  console.log('final data: ', data);
+  console.log('final columns: ', columns);
+
+  
 }, [data, columns]);
 
   const changeHandler = (event: any) => {
@@ -20,31 +22,35 @@ useEffect(() => {
       header: true,
       skipEmptyLines: true,
       complete: function (results: any) {
-       
-        
-        const objectData: any = {
-          id: null,
-          serialNumber: '',
-          model: '',
-          date: '',
-        }
 
         results.data.map((d: object, i: number) => {
           const selector = Object.values(d);
-          newCol.push({ name: Object.keys(d)[i], selector: (row: any) => selector[i] });
-          objectData.id = i;
-          objectData.serialNumber = selector[0];
-          objectData.model = selector[1];
-          objectData.date = Object.values(d)[2];
-         
-          console.log('object', objectData)
-          newData.push(objectData);
+          if(i <= 2) {
+            setColumns(newCol => [...newCol, 
+              {name: Object.keys(d)[i], selector: (row: any) => [
+                row.serialNumber, 
+                row.model, 
+                row.date][i]
+              }
+              ]);
+          }
+
+          const objectData: any = {
+            id: i,
+            serialNumber: selector[0],
+            model: selector[1],
+            date: selector[2],
+          }
+          
+          console.log('object', i, objectData)
+          setData(newData => [...newData, objectData]);
         });
       },
     });
     setColumns(newCol);
-    console.log('new data: ', newData);
-    // setData(newData);
+    setData(newData);
+    console.log('final data: ', data);
+
   };
 
 
