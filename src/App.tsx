@@ -3,6 +3,7 @@ import Header from './global/Header/Header';
 import Content from './global/Body/Content/Content';
 import Nav from './global/Body/Nav/Nav';
 import Layout from './global/Layout';
+import { Link } from 'react-router-dom';
 
 export default function App() {
 
@@ -15,7 +16,10 @@ export default function App() {
         body={
           <Body 
             nav={ <Nav>
-              <a href="" className="nav__item">Login</a>
+              <ul>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/provisioning">Provisioning</Link></li>
+              </ul>
             </Nav> }
             content={ <Content/>}
           />
